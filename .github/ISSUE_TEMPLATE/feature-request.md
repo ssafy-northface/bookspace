@@ -7,14 +7,6 @@ assignees: ''
 
 ---
 
----
-name: "✨ Feature Request"
-about: "새로운 기능을 제안하고 싶다면 여기에 작성해주세요!"
-title: "[FEAT] "
-labels: ["enhancement"]
-assignees: ""
----
-
 ## ✨ 제안하는 기능 설명
 추가하고 싶은 기능을 자세히 설명해주세요.
 
