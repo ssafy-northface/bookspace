@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bookspace.mvc.model.dao.BookDao">
+
+    <sql id="bookColumns">
+        book_id,
+        book_title,
+        book_author,
+        book_publisher,
+        book_publication_date,
+        book_isbn,
+        book_description,
+        book_price,
+        book_image_url,
+        book_sales_point,
+        book_category
+    </sql>
+
+    <insert id="insertBook" parameterType="Book" useGeneratedKeys="true" keyProperty="bookId">
+        INSERT INTO book (
+            book_title,
+            book_author,
+            book_publisher,
+            book_publication_date,
+            book_isbn,
+            book_description,
+            book_price,
+            book_image_url,
+            book_sales_point,
+            book_category
+        )
+        VALUES (
+            #{bookTitle},
+            #{bookAuthor},
+            #{bookPublisher},
+            #{bookPublicationDate},
+            #{bookIsbn},
+            #{bookDescription},
+            #{bookPrice},
+            #{bookImageUrl},
+            #{bookSalesPoint},
+            #{bookCategory}
+        )
+    </insert>
+
+    <select id="selectAllBooks" resultType="Book">
+        SELECT
+            <include refid="bookColumns" />
+        FROM book
+        ORDER BY book_sales_point DESC, book_id DESC
+    </select>
+
+    <select id="selectBookById" parameterType="int" resultType="Book">
+        SELECT
+            <include refid="bookColumns" />
+        FROM book
+        WHERE book_id = #{bookId}
+    </select>
+
+	<!-- 감정 추천 DB 스키마 확인 -->
+    <select id="selectBooksByEmotion" parameterType="string" resultType="Book">
+        SELECT
+            <include refid="bookColumns" />
+        FROM book
+        WHERE book_category = #{emotion}
+        ORDER BY book_sales_point DESC
+    </select>
+
+    <update id="updateBook" parameterType="Book">
+        UPDATE book
+        SET
+            book_title = #{bookTitle},
+            book_author = #{bookAuthor},
+            book_publisher = #{bookPublisher},
+            book_publication_date = #{bookPublicationDate},
+            book_isbn = #{bookIsbn},
+            book_description = #{bookDescription},
+            book_price = #{bookPrice},
+            book_image_url = #{bookImageUrl},
+            book_sales_point = #{bookSalesPoint},
+            book_category = #{bookCategory}
+        WHERE book_id = #{bookId}
+    </update>
+
+    </mapper>
