@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookspace.mvc.model.dao.UserDao">
+	
+	<!-- 전체 회원 조회 -->
+	<select id="selectAllUsers" resultType="User">
+		SELECT *
+		FROM user
+	</select>
+
+	<!-- 회원 한명 조회 (by userId) -->
+	<select id="selectUserById" resultType="User">
+		SELECT *
+		FROM user
+		WHERE user_id = #{userId}
+	</select>
+	
+	<!-- 회원 등록 -->
+	<insert id="insertUser">
+		INSERT INTO user (
+			user_login_id,
+			user_name,
+			user_nickname,
+			user_pw,
+			user_birth_date,
+			user_phone,
+			user_email
+		)
+		VALUES(
+			#{userLoginId},
+			#{userName},
+			#{userNickname},
+			#{userPw},
+			#{userBirthDate},
+			#{userPhone},
+			#{userEmail}			
+		)
+	</insert>
+	
+	
+	<!-- 회원 정보 수정 -->
+	<update id="updateUser">
+		UPDATE user
+		SET user_login_id = #{userLoginId},
+			user_name = #{userName},
+			user_nickname = #{userNickname},
+			user_pw = #{userPw},
+			user_birth_date = #{userBirthDate},
+			user_phone = #{userPhone},
+			user_email = #{userEmail}
+		WHERE user_id = #{userId}
+	</update>
+	
+	
+	<!-- 회원 탈퇴 (회원 정보 삭제 - soft delete -->
+	<update id="deleteUser">
+		UPDATE user
+		SET deleted_at = NOW()
+		WHERE user_id = #{userId}
+	</update>
+	
+	
+	<!-- 회원 한명 조회 (by login_id) -->
+	<!-- 로그인을 위한 기능 -->
+	<select id="selectUserByLoginId" resultType="User">
+		SELECT *
+		FROM user
+		WHERE user_login_id = #{userLoginId}
+			AND deleted_at IS NULL
+	</select>
+	
+	
+	<!-- 이메일 중복 여부 확인 -->
+	<!-- count 결과가 0이면 false / 1이상이면 true 반환 -->
+	<select id="existUserByEmail" parameterType="String" resultType="boolean">
+		SELECT COUNT(*)
+		FROM user
+		WHERE user_email = #{userEmail}
+			AND deleted_at IS NULL
+	</select>
+	
+	
+	
+
+
+
+
+</mapper>
