@@ -7,14 +7,14 @@
 
     <insert id="insertComment" parameterType="Comment" 
             useGeneratedKeys="true" keyProperty="commentId">
-        INSERT INTO comments (
+        INSERT INTO comment (
             post_id, 
             user_id, 
             comment_content, 
             comment_date, 
             comment_last_modified
         ) VALUES (
-            #{postId}, 
+            #{postId},
             #{userId}, 
             #{commentContent}, 
             NOW(), 
@@ -31,7 +31,7 @@
             comment_date,
             comment_last_modified,
             deleted_at
-        FROM comments
+        FROM comment
         WHERE post_id = #{postId}
           AND deleted_at IS NULL
         ORDER BY comment_date ASC
@@ -46,7 +46,7 @@
             comment_date, 
             comment_last_modified,
             deleted_at
-        FROM comments
+        FROM comment
         WHERE comment_id = #{commentId}
           AND deleted_at IS NULL
     </select>
@@ -60,14 +60,14 @@
             comment_date, 
             comment_last_modified,
             deleted_at
-        FROM comments
+        FROM comment
         WHERE user_id = #{userId}
           AND deleted_at IS NULL
         ORDER BY comment_date DESC
     </select>
     
     <update id="updateComment" parameterType="Comment">
-        UPDATE comments
+        UPDATE comment
         SET 
             comment_content = #{commentContent},
             comment_last_modified = NOW()
@@ -76,7 +76,7 @@
     
 
     <update id="deleteComment" parameterType="int">
-        UPDATE comments
+        UPDATE comment
         SET deleted_at = NOW()
         WHERE comment_id = #{commentId}
     </update>
